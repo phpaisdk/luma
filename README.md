@@ -1,33 +1,52 @@
-# Kling AI provider
+# aisdk/luma
 
 <a href="https://github.com/phpaisdk/luma/actions"><img alt="GitHub Workflow Status" src="https://img.shields.io/github/actions/workflow/status/phpaisdk/luma/tests.yml?branch=main&label=Tests"></a>
-<a href="https://packagist.org/packages/aisdk/luma"><img alt="Total Downloads" src="https://img.shields.io/packagist/dt/aisdk/luma"></a>
 <a href="https://packagist.org/packages/aisdk/luma"><img alt="Latest Version" src="https://img.shields.io/packagist/v/aisdk/luma"></a>
 <a href="https://packagist.org/packages/aisdk/luma"><img alt="License" src="https://img.shields.io/packagist/l/aisdk/luma"></a>
-<a href="https://whyphp.dev"><img src="https://img.shields.io/badge/Why_PHP-in_2026-7A86E8?style=flat-square&labelColor=18181b" alt="Why PHP in 2026"></a>
 
 ------
 
-Supports Kling image generation, text-to-speech, text-to-video, image-to-video, motion control, and current Omni image/video workflows with image, video, element, voice, and multi-shot references.
+Official Luma provider for the PHP AI SDK. Uses Luma Dream Machine's native video-generation API.
 
-Use the current `LUMA_API_KEY`, or legacy `LUMA_API_KEY` and `LUMA_API_KEY` credentials.
+## Installation
+
+```bash
+composer require aisdk/luma
+```
+
+## Basic Usage
 
 ```php
+use AiSdk\Generate;
+use AiSdk\Luma;
+
+Luma::create(['apiKey' => $_ENV['LUMA_API_KEY']]);
+
 $video = Generate::video('A cinematic product reveal')
-    ->model(Luma::model('kling-v3-omni'))
+    ->model(Luma::model('ray-2'))
     ->aspectRatio('16:9')
-    ->duration(8)
-    ->providerOptions('luma', ['sound' => 'on'])
+    ->duration(5)
     ->run(timeout: 600);
 ```
 
+## Configuration
+
+| Variable | Description | Default |
+| --- | --- | --- |
+| `LUMA_API_KEY` | API key for authentication | Required |
+| `LUMA_BASE_URL` | Base URL for API requests | `https://api.lumalabs.ai/dream-machine/v1` |
+
+## Supported Capabilities
+
+| Capability | Support |
+| --- | --- |
+| Text-to-video generation | Native |
+| Async job polling | Native |
+| Image-to-video and other Dream Machine fields | Via raw provider options |
+
+The package creates a `/generations/video` job and polls `/generations/{id}` until the video is available. Use `providerOptions('luma', ['keyframes' => [...], 'resolution' => '720p'])` for supported native Luma request fields.
+
 ## Documentation
 
-- [PHP AI SDK documentation](https://phpaisdk.com/docs)
-- [Kling AI documentation](https://phpaisdk.com/docs/luma)
-
-## Community
-
-- [Contributing](https://github.com/phpaisdk/.github/blob/main/CONTRIBUTING.md)
-- [Support](https://github.com/phpaisdk/.github/blob/main/SUPPORT.md)
-- For private security reports, email [security@phpaisdk.com](mailto:security@phpaisdk.com).
+- [Luma Dream Machine video-generation documentation](https://docs.lumalabs.ai/ue/docs/video-generation)
+- [PHP AI SDK documentation](https://phpaisdk.com/docs/luma)
