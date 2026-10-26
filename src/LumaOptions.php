@@ -26,6 +26,6 @@ final class LumaOptions
     /** @return array<string,string> */
     public function authHeaders(): array
     {
-        return array_merge(['Authorization' => 'Bearer '.$this->apiKey], $this->headers);
+        return array_merge(['Authorization' => 'Bearer ' . $this->apiKey], $this->headers);
     }
 }
