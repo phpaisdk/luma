@@ -2,7 +2,7 @@
 
 Notable changes to `aisdk/luma`. Release notes are also published at https://github.com/phpaisdk/luma/releases.
 
-## Unreleased (v0.10.1)
+## v0.10.1 — 2026-10-29
 
 - Raise SDK exceptions instead of native PHP ones.
 
