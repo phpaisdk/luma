@@ -6,6 +6,7 @@ namespace AiSdk\Luma\Models;
 
 use AiSdk\Contracts\BaseModel;
 use AiSdk\Contracts\VideoModelInterface;
+use AiSdk\Exceptions\InvalidResponseException;
 use AiSdk\Luma\LumaOptions;
 use AiSdk\Requests\VideoRequest;
 use AiSdk\Responses\VideoJob;
@@ -39,7 +40,7 @@ final class LumaVideoModel extends BaseModel implements VideoModelInterface
         } $p = $this->runner($this->options->sdk)->postJson(Url::joinPath($this->options->baseUrl, '/generations/video'), $body, $this->options->authHeaders(), $this->provider());
         $id = (string) ($p['id'] ?? '');
         if ($id === '') {
-            throw new \RuntimeException('Luma returned no generation id.');
+            throw new InvalidResponseException('Luma returned no generation id.');
         }
 
         return new VideoJob($id, $this->provider(), $this->modelId, rawResponse: $p, providerMetadata: ['luma' => []]);
